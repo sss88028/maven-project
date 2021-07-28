@@ -7,5 +7,22 @@ pipeline {
       }
     }
 
+    stage('DeployToStaging') {
+      parallel {
+        stage('DeployToStaging') {
+          steps {
+            build 'DeployToStaging'
+          }
+        }
+
+        stage('StaticAnalysis') {
+          steps {
+            build 'StaticAnalysis'
+          }
+        }
+
+      }
+    }
+
   }
 }
