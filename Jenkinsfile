@@ -24,5 +24,11 @@ pipeline {
       }
     }
 
+    stage('DeployToProduction') {
+      steps {
+        input(message: 'Ok to deploy', id: 'go', ok: 'go')
+      }
+    }
+
   }
 }
