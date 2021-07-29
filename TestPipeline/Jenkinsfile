@@ -1,35 +1,16 @@
 pipeline {
-  agent any
-  stages {
-    stage('Build') {
-      steps {
-        build 'PackageMaven'
-      }
-    }
-
-    stage('DeployToStaging') {
-      parallel {
-        stage('DeployToStaging') {
-          steps {
-            build 'DeployToStaging'
-          }
+    agent any
+    stages{
+        stage('Build'){
+            steps {
+                sh 'mvn clean package'
+            }
+            post {
+                success {
+                    echo '开始存档...'
+                    archiveArtifacts artifacts: '**/target/*.war'
+                }
+            }
         }
-
-        stage('StaticAnalysis') {
-          steps {
-            build 'StaticAnalysis'
-          }
-        }
-
-      }
     }
-
-    stage('DeployToProduction') {
-      steps {
-        input(message: 'Press go to deploy', id: 'go', ok: 'go')
-        build 'DeployToProduction'
-      }
-    }
-
-  }
 }
