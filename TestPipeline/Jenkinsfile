@@ -8,7 +8,7 @@ pipeline {
         stage('Build'){
             steps 
 			{
-                mvn clean package
+				cmd_exec('mvn clean package')
             }
             post {
                 success 
