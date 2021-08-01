@@ -19,16 +19,16 @@ pipeline {
             }
         }
     }
+}
 	
-	def cmd_exec(command) 
-	{
-		if (isUnix()) 
-		{ 
-			sh "${command}" 
-		} 
-		else 
-		{ 
-			bat "chcp 65001\n${command}"
-		}
+def cmd_exec(command) 
+{
+	if (isUnix()) 
+	{ 
+		sh "${command}" 
+	} 
+	else 
+	{ 
+		bat "chcp 65001\n${command}"
 	}
 }
