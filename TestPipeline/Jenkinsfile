@@ -4,18 +4,28 @@ pipeline {
 	{
 		maven 'LocalMaven'
 	}
-    stages{
-        stage('Build'){
+    stages
+	{
+        stage('Build')
+		{
             steps 
 			{
 				cmd_exec('mvn clean package')
             }
-            post {
+            post 
+			{
                 success 
 				{
                     echo 'Start saving...'
                     archiveArtifacts artifacts: '**/target/*.war'
                 }
+            }
+        }
+        stage('Deploy to staging')
+		{
+            steps 
+			{
+				build job: 'DeployToStaging'
             }
         }
     }
