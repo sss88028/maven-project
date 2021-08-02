@@ -4,6 +4,15 @@ pipeline {
 	{
 		maven 'LocalMaven'
 	}
+	parameters
+	{
+		string(name: 'tomcat_dev', defaultValue: '127.0.0.1:8090', description: 'Staging Server')
+		string(name: 'tomcat_prod', defaultValue: '127.0.0.1:8091', description: 'Production Server')
+	}
+	triggers
+	{
+		pollSCM('*/5 * * * *')
+	}
     stages
 	{
         stage('Build')
@@ -21,35 +30,26 @@ pipeline {
                 }
             }
         }
-        stage('Deploy to staging')
+		stage('Deployments')
 		{
-            steps 
+			parallel
 			{
-				build job: 'DeployToStaging'
-            }
-        }
-        stage('Deploy to production')
-		{
-            steps 
-			{
-                timeout(time:5, unit:'DAYS')
+				stage('Deploy to staging')
 				{
-					input message:'Confirm to deploy'
+					steps 
+					{
+						sh "scp -i /Users/gaoyan/Documents/SunnyDemo/dev/tomcat-demo.pem.txt **/target/*.war ec2-user@${params.tomcat_dev}:/var/lib/tomcat8/webapps"
+					}
 				}
-				build job: 'DeployToStaging'
-            }
-			post
-			{
-				success
+				stage('Deploy to production')
 				{
-					echo 'Success'
-				}
-				failure
-				{
-					echo 'Failure'
+					steps 
+					{
+						sh "scp -i /Users/gaoyan/Documents/SunnyDemo/dev/tomcat-demo.pem.txt **/target/*.war ec2-user@${params.tomcat_prod}:/var/lib/tomcat8/webapps"
+					}
 				}
 			}
-        }
+		}
     }
 }
 	
