@@ -28,6 +28,28 @@ pipeline {
 				build job: 'DeployToStaging'
             }
         }
+        stage('Deploy to production')
+		{
+            steps 
+			{
+				timeout(time:5, unit:'DAY5')
+				{
+					input message:'Confirm to deploy'
+				}
+				build job: 'DeployToStaging'
+            }
+			post
+			{
+				success
+				{
+					echo 'Success'
+				}
+				failure
+				{
+					echo 'Failure'
+				}
+			}
+        }
     }
 }
 	
