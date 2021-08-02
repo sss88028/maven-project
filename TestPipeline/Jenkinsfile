@@ -10,7 +10,7 @@ pipeline {
 		{
             steps 
 			{
-                echo 'Test'
+				sh 'mvn -v'
             }
             post 
 			{
@@ -21,35 +21,35 @@ pipeline {
                 }
             }
         }
-        stage('Deploy to staging')
-		{
-            steps 
-			{
-				build job: 'DeployToStaging'
-            }
-        }
-        stage('Deploy to production')
-		{
-            steps 
-			{
-                timeout(time:5, unit:'DAYS')
-				{
-					input message:'Confirm to deploy'
-				}
-				build job: 'DeployToStaging'
-            }
-			post
-			{
-				success
-				{
-					echo 'Success'
-				}
-				failure
-				{
-					echo 'Failure'
-				}
-			}
-        }
+        // stage('Deploy to staging')
+		// {
+            // steps 
+			// {
+				// build job: 'DeployToStaging'
+            // }
+        // }
+        // stage('Deploy to production')
+		// {
+            // steps 
+			// {
+                // timeout(time:5, unit:'DAYS')
+				// {
+					// input message:'Confirm to deploy'
+				// }
+				// build job: 'DeployToStaging'
+            // }
+			// post
+			// {
+				// success
+				// {
+					// echo 'Success'
+				// }
+				// failure
+				// {
+					// echo 'Failure'
+				// }
+			// }
+        // }
     }
 }
 	
