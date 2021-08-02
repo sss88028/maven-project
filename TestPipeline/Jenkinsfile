@@ -38,14 +38,14 @@ pipeline {
 				{
 					steps 
 					{
-						echo '001'
+                        sh "curl -T **/*.war ${params.tomcat_dev}"
 					}
 				}
 				stage('Deploy to production')
 				{
 					steps 
 					{
-						echo '001'
+						echo '002'
 					}
 				}
 			}
