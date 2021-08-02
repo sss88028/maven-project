@@ -10,7 +10,7 @@ pipeline {
 		{
             steps 
 			{
-				cmd_exec('mvn clean package')
+				sh 'mvn clean package'
             }
             post 
 			{
