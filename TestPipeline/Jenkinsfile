@@ -21,32 +21,32 @@ pipeline {
                 }
             }
         }
-        stage('deploy to staging')
+        stage('Deploy to staging')
 		{
             steps 
 			{
-				build job: 'deploytostaging'
+				build job: 'DeployToStaging'
             }
         }
-        stage('deploy to production')
+        stage('Deploy to production')
 		{
             steps 
 			{
-                timeout(time:5, unit:'days')
+                timeout(time:5, unit:'DAYS')
 				{
-					input message:'confirm to deploy'
+					input message:'Confirm to deploy'
 				}
-				build job: 'deploytostaging'
+				build job: 'DeployToStaging'
             }
 			post
 			{
 				success
 				{
-					echo 'success'
+					echo 'Success'
 				}
 				failure
 				{
-					echo 'failure'
+					echo 'Failure'
 				}
 			}
         }
