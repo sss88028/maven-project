@@ -32,7 +32,7 @@ pipeline {
 		{
             steps 
 			{
-				timeout(time:5, unit:'DAY5')
+                timeout(time:5, unit:'DAYS')
 				{
 					input message:'Confirm to deploy'
 				}
