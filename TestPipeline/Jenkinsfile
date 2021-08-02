@@ -38,7 +38,7 @@ pipeline {
 				{
 					steps 
 					{
-						sh "curl -v -u tomcat:tomcat -T **/target/*.war 'http://${params.tomcat_dev}/manager/text/deploy?path=/my-app-path&update=true'"
+						sh "curl -v -u tomcat:tomcat -T **/target/*.war 'http://${params.tomcat_dev}/manager/text/deploy?update=true'"
 					}
 				}
 				stage('Deploy to production')
