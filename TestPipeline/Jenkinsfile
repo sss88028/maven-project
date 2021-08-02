@@ -38,7 +38,7 @@ pipeline {
 				{
 					steps 
 					{
-                        sh "curl -T **/*.war ${params.tomcat_dev}"
+                        sh "curl -T **/target/*.war ${params.tomcat_dev}"
 					}
 				}
 				stage('Deploy to production')
