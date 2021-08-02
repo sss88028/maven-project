@@ -21,35 +21,35 @@ pipeline {
                 }
             }
         }
-        // stage('Deploy to staging')
-		// {
-            // steps 
-			// {
-				// build job: 'DeployToStaging'
-            // }
-        // }
-        // stage('Deploy to production')
-		// {
-            // steps 
-			// {
-                // timeout(time:5, unit:'DAYS')
-				// {
-					// input message:'Confirm to deploy'
-				// }
-				// build job: 'DeployToStaging'
-            // }
-			// post
-			// {
-				// success
-				// {
-					// echo 'Success'
-				// }
-				// failure
-				// {
-					// echo 'Failure'
-				// }
-			// }
-        // }
+        stage('deploy to staging')
+		{
+            steps 
+			{
+				build job: 'deploytostaging'
+            }
+        }
+        stage('deploy to production')
+		{
+            steps 
+			{
+                timeout(time:5, unit:'days')
+				{
+					input message:'confirm to deploy'
+				}
+				build job: 'deploytostaging'
+            }
+			post
+			{
+				success
+				{
+					echo 'success'
+				}
+				failure
+				{
+					echo 'failure'
+				}
+			}
+        }
     }
 }
 	
