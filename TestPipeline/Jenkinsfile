@@ -6,6 +6,8 @@ pipeline {
 	}
 	parameters
 	{
+		string(name: 'tomcat_account', defaultValue: 'tomcat', description: 'Tomcat account')
+		string(name: 'tomcat_pwd', defaultValue: 'tomcat', description: 'Tomcat password')
 		string(name: 'tomcat_dev', defaultValue: '127.0.0.1:8090', description: 'Staging Server')
 		string(name: 'tomcat_prod', defaultValue: '127.0.0.1:8091', description: 'Production Server')
 	}
@@ -38,14 +40,14 @@ pipeline {
 				{
 					steps 
 					{
-						sh "curl -v -u tomcat:tomcat -T **/target/*.war 'http://${params.tomcat_dev}/manager/text/deploy?update=true'"
+						sh "curl -v -u ${params.tomcat_account}:${params.tomcat_pwd} -T **/target/*.war 'http://${params.tomcat_dev}/manager/text/deploy?war=webapp&path=/webapp&update=true'"
 					}
 				}
 				stage('Deploy to production')
 				{
 					steps 
 					{
-                        sh "curl -T **/target/*.war ${params.tomcat_prod}"
+						sh "curl -v -u ${params.tomcat_account}:${params.tomcat_pwd} -T **/target/*.war 'http://${params.tomcat_prod}/manager/text/deploy?war=webapp&path=/webapp&update=true'"
 					}
 				}
 			}
