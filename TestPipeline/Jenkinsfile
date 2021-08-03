@@ -47,6 +47,10 @@ pipeline {
 				{
 					steps 
 					{
+						timeout(time:5, unit:'DAYS')
+						{
+							input message:'Confirm to deploy to production'
+						}
 						sh "curl -v -u ${params.tomcat_account}:${params.tomcat_pwd} -T **/target/*.war 'http://${params.tomcat_prod}/manager/text/deploy?war=webapp&path=/webapp&update=true'"
 					}
 				}
